@@ -17,6 +17,9 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.inmuebles
     OWNER to postgres;
 
+
+
+
     INSERT INTO public.inmuebles(
 	id, nombre, metros_cuadrados, direccion, precio_venta)
 	VALUES (1, 'Casa-1', 100, 'Av. Colón 123', 'u$s 50.000'),
@@ -24,4 +27,4 @@ ALTER TABLE IF EXISTS public.inmuebles
 	(3, 'Casa-3', 150, 'Garibaldi 2345', 'u$s 80.000'),
 	(4, 'Casa-4', 200, 'Asunción 342', 'u$s 150.000'),
 	(5, 'Casa-5', 120, 'Rondeau 4567', 'u$s 190.000'),
-	(6, 'Casa-6', 350, 'Av. Rafael Nuñes 200', 'u$s 400.000')
+	(6, 'Casa-6', 350, 'Av. Rafael Nuñes 200', 'u$s 400.000');
