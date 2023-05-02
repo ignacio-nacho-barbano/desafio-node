@@ -1,5 +1,5 @@
 const express = require("express");
-const { saludo, mostrarInmuebles, mostrarInmuebleId, nuevoInmueble, registroUsuario, loginUsuario } = require("../controllers/inmueblesControllers");
+const { saludo, mostrarInmuebles, mostrarInmuebleId, nuevoInmueble, registroUsuario, loginUsuario, editarInmueble } = require("../controllers/inmueblesControllers");
 const routes = express.Router();
 
 const { runValidation } = require("../middleware/validator/index");
@@ -12,6 +12,8 @@ routes.get("/inmuebles/:id", verifyToken, runValidation, validarUsuarioCliente, 
 routes.post("/inmuebles/nuevo", verifyToken, runValidation, validarUsuarioAdmin, nuevoInmueble);
 routes.post("/registro", registroUsuario)
 routes.post("/login", loginUsuario)
+
+routes.put("/inmuebles/editar/:id", editarInmueble)
 
 
 module.exports = routes;

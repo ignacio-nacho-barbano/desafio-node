@@ -89,11 +89,35 @@ exports.loginUsuario = async (req, res) => {
                 process.env.TOKEN_SECRET
             );
             res.status(200).json({
-                mensaje: "El usuario se ha logeado correctamente",
+                message: "El usuario se ha logeado correctamente",
                 token: token,
             });
         })
         .catch((error) => {
             res.status(400).json({ error: error.message });
         });
+}
+
+exports.editarInmueble = async (req, res) => {
+    const id = +req.params.id;
+    const precio_venta = req.body.precio_venta;
+    try {
+        const resultado = await knex("inmuebles").where({ id: id }).update({
+            precio_venta: precio_venta,
+        });
+        res.status(200).json({ message: "Precio modificado exitosamente", resultado });
+    } catch (error) {
+        res.status(400).json({ message: "No se encontro una propiedad con ese id" });
+    }
+}
+
+exports.eliminarInmueble = async (req, res) => {
+    const id = +req.params.id;
+    try {
+        const resultado = await knex("inmuebles").where({ id: id }).delete();
+        const inmuebles = await knex.select("*").from("inmuebles");
+        res.status(200).json({ message: "Propiedad borrada exitosamente", inmuebles });
+    } catch (error) {
+        res.status(400).json({ message: "No se encontro una propiedad con ese id" });
+    }
 }
