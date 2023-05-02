@@ -1,4 +1,6 @@
 const knex = require("../config/knexfile");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 exports.saludo = async (req, res) => {
     res.status(200)
@@ -38,4 +40,60 @@ exports.nuevoInmueble = async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
+}
+
+exports.registroUsuario = async (req, res) => {
+    const { usuario, contraseña, permisos } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncrypt = await bcrypt.hash(contraseña, salt);
+    try {
+        const resultado = await knex("usuarios").insert({
+            usuario: usuario,
+            contraseña: passwordEncrypt,
+            permisos: permisos
+        })
+        res.status(200).json({ message: "Se ha registrado el usuario" })
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+exports.loginUsuario = async (req, res) => {
+    const { usuario, contraseña } = req.body;
+
+    knex("usuarios")
+        .where({ usuario: usuario })
+        .then(async (resultado) => {
+            if (!resultado.length) {
+                res
+                    .status(404)
+                    .json({ error: "El usuario no se encuentra registrado" });
+                return;
+            }
+            const validatePassword = await bcrypt.compare(
+                contraseña,
+                resultado[0].contraseña
+            );
+            if (!validatePassword) {
+                res.status(400).json({
+                    error: "Usuario y/o contraseña inválido",
+                });
+                return;
+            }
+
+            const token = jwt.sign(
+                {
+                    usuario: resultado[0].usuario,
+                    permisos: resultado[0].permisos,
+                },
+                process.env.TOKEN_SECRET
+            );
+            res.status(200).json({
+                mensaje: "El usuario se ha logeado correctamente",
+                token: token,
+            });
+        })
+        .catch((error) => {
+            res.status(400).json({ error: error.message });
+        });
 }
