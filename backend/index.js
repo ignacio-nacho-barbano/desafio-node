@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+/* const cookieParser = require("cookie-parser"); */
 const cors = require("cors");
 require("dotenv").config();
 const inmueblesRoutes = require("./routes/inmueblesRoutes")
@@ -12,7 +12,7 @@ const app = express();
 //middleware    man in the middle
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-app.use(cookieParser());
+/* app.use(cookieParser()); */
 app.use(cors());
 
 // colocar rutas
