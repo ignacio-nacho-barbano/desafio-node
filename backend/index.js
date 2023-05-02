@@ -19,7 +19,7 @@ app.use(cors());
 app.use("/api", inmueblesRoutes)
 
 // levantar el servidor en un puerto
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
-    console.log("Servidor levantado en el puerto 3000");
+    console.log("Servidor levantado en el puerto 3001");
 });
