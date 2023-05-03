@@ -60,7 +60,7 @@ exports.registroUsuario = async (req, res) => {
 
 exports.loginUsuario = async (req, res) => {
     const { usuario, contraseña } = req.body;
-
+    console.log(usuario, contraseña);
     knex("usuarios")
         .where({ usuario: usuario })
         .then(async (resultado) => {
@@ -102,7 +102,7 @@ exports.editarInmueble = async (req, res) => {
     const id = +req.params.id;
     const precio_venta = req.body.precio_venta;
     try {
-        const resultado = await knex("inmuebles").where({ id: id }).update({
+        const resultado = await knex("inmuebles").where({ id }).update({
             precio_venta: precio_venta,
         });
         res.status(200).json({ message: "Precio modificado exitosamente", resultado });
@@ -114,10 +114,20 @@ exports.editarInmueble = async (req, res) => {
 exports.eliminarInmueble = async (req, res) => {
     const id = +req.params.id;
     try {
-        const resultado = await knex("inmuebles").where({ id: id }).delete();
+        const resultado = await knex("inmuebles").where({ id }).delete();
         const inmuebles = await knex.select("*").from("inmuebles");
         res.status(200).json({ message: "Propiedad borrada exitosamente", inmuebles });
     } catch (error) {
         res.status(400).json({ message: "No se encontro una propiedad con ese id" });
+    }
+}
+
+exports.filtrarInmueble = async (req, res) => {
+    const { metros_cuadrados } = req.body;
+    try {
+        const resultado = await knex("inmuebles").where({ metros_cuadrados })
+        res.status(200).json({ message: "Los inmuebles con esos metros cuadrados son:", resultado })
+    } catch (error) {
+        res.status(400).json({ message: "No se encontro una propiedad con ese filtro" });
     }
 }
