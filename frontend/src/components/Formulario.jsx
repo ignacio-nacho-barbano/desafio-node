@@ -4,10 +4,11 @@ function Formulario() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
 
-  const onSubmit = () => {
+  const onSubmit = async (event) => {
+    event.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Access-Control-Allow-Credentials", true);
+    /*     myHeaders.append("Access-Control-Allow-Credentials", true); */
 
     const raw = JSON.stringify({
       usuario: "Francisco",
@@ -21,9 +22,8 @@ function Formulario() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/api/login", requestOptions)
+    await fetch("http://localhost:3001/api/login", requestOptions)
       .then((response) => {
-        debugger;
         response.json();
       })
       .then((result) => console.log(result))
