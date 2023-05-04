@@ -34,9 +34,10 @@ function AgregarInmueble() {
       );
       if (response.ok) {
         const respuesta = await response.json();
+        alert("Se agregó la propiedad");
       } else {
         const respuesta = await response.json();
-        alert(respuesta.error);
+        alert(respuesta);
       }
     } catch (error) {
       alert(error.message);

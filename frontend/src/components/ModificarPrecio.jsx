@@ -21,17 +21,19 @@ function ModificarPrecio() {
       redirect: "follow",
     };
     try {
-      const resultado = await fetch(
+      const response = await fetch(
         `http://localhost:3001/api/inmuebles/editar/${id}`,
         requestOptions
       );
       if (response.ok) {
-        const respuesta = await response.json();
+        const resultado = await response.json();
+        alert("El precio se modificó");
       } else {
-        const respuesta = await response.json();
+        const resultado = await response.json();
+        alert(error.message);
       }
     } catch (error) {
-      alert(error.mesage);
+      alert(error.message);
     }
   };
 

@@ -14,7 +14,7 @@ routes.post("/registro", registroUsuario);
 routes.post("/login", loginUsuario);
 
 routes.put("/inmuebles/editar/:id", editarInmueble);
-routes.delete("inmuebles/eliminar/:id", eliminarInmueble);
+routes.delete("/inmuebles/eliminar/:id", eliminarInmueble);
 routes.post("/inmuebles/filtro", filtrarInmueble)
 
 

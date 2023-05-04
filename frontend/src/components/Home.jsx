@@ -13,7 +13,11 @@ function Home() {
   };
 
   const precio = () => {
-    navigate("/modificarPrecio");
+    navigate("/cambiarPrecio");
+  };
+
+  const borrarInmueble = () => {
+    navigate("/borrarInmueble");
   };
   return (
     <div>
@@ -21,7 +25,7 @@ function Home() {
       <button onClick={inmuebleNuevo}>Agregar propiedad</button>
       <button onClick={inmuebles}>Ver inmuebles</button>
       <button onClick={precio}>Modificar precio</button>
-      <button></button>
+      <button onClick={borrarInmueble}>Borrar propiedad</button>
     </div>
   );
 }
