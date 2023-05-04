@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-function Formulario() {
-  const [user, setUser] = useState("");
+function Registro() {
+  const [nombre, setNombre] = useState("");
   const [pass, setPass] = useState("");
-  const navigate = useNavigate();
+  const [permisos, setPermisos] = useState("");
 
-  const login = async (event) => {
+  const registro = async (event) => {
     event.preventDefault();
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    /*     myHeaders.append("Access-Control-Allow-Credentials", true); */
 
     const raw = JSON.stringify({
-      usuario: user,
+      usuario: nombre,
       contraseña: pass,
+      permisos: permisos,
     });
 
     const requestOptions = {
@@ -24,50 +23,59 @@ function Formulario() {
       body: raw,
       redirect: "follow",
     };
+
     try {
       const response = await fetch(
-        "http://localhost:3001/api/login",
+        "http://localhost:3001/api/registro",
         requestOptions
       );
       if (response.ok) {
         const respuesta = await response.json();
-        localStorage.setItem("token", respuesta.token);
-        /*  alert(respuesta.message); */
-        navigate("/home");
+        alert(
+          "El usuario ha sido registrado. Vuelva a la página principal para ingresar y acceder al menú"
+        );
       } else {
         const respuesta = await response.json();
         alert(respuesta.error);
       }
     } catch (error) {
-      alert(error.message);
+      alert("Error!!!  ", error);
     }
   };
-
   return (
     <div>
-      <form action="submit" onSubmit={login}>
-        <label htmlFor="">Usuario</label>
+      <form action="submit" onSubmit={registro}>
+        <label htmlFor="">Nombre:</label>
         <input
           type="text"
           placeholder="Nombre de usuario"
           onChange={(e) => {
-            setUser(e.target.value);
+            setNombre(e.target.value);
           }}
-          value={user}
+          value={nombre}
         />
-        <label htmlFor="">Contraseña</label>
+        <label htmlFor="">Contraseña:</label>
         <input
-          type="text"
+          type="password"
           placeholder="Ingrese la contraseña"
           onChange={(e) => {
             setPass(e.target.value);
           }}
           value={pass}
         />
-        <button type="submit">Ingresar</button>
+        <label htmlFor="">Perfil:</label>
+        <input
+          type="text"
+          placeholder="Ingrese su perfil (cliente, admin o gerente)"
+          onChange={(e) => {
+            setPermisos(e.target.value);
+          }}
+          value={permisos}
+        />
+        <button type="submit">Registrarse</button>
       </form>
     </div>
   );
 }
 
-export default Formulario;
+export default Registro;

@@ -9,14 +9,17 @@ import AgregarInmueble from "./components/AgregarInmueble.jsx";
 import ListadoInmuebles from "./components/ListadoInmuebles.jsx";
 import BorrarPropiedad from "./components/BorrarPropiedad.jsx";
 import ModificarPrecio from "./components/ModificarPrecio.jsx";
+import Registro from "./components/Registro.jsx";
 
 const Router = createBrowserRouter([
-  { path: "/", element: <Formulario /> },
+  { path: "/login", element: <Formulario /> },
   { path: "/home", element: <Home /> },
   { path: "/agregarInmueble", element: <AgregarInmueble /> },
   { path: "/mostrarInmueble", element: <ListadoInmuebles /> },
   { path: "/cambiarPrecio", element: <ModificarPrecio /> },
   { path: "/borrarInmueble", element: <BorrarPropiedad /> },
+  { path: "/registro", element: <Registro /> },
+  { path: "/", element: <App /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
