@@ -1,18 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Formulario() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
+  const navigate = useNavigate();
 
-  const onSubmit = async (event) => {
+  const login = async (event) => {
     event.preventDefault();
+
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     /*     myHeaders.append("Access-Control-Allow-Credentials", true); */
 
     const raw = JSON.stringify({
-      usuario: "Francisco",
-      contraseña: "uriel2022",
+      usuario: user,
+      contraseña: pass,
     });
 
     const requestOptions = {
@@ -21,17 +24,28 @@ function Formulario() {
       body: raw,
       redirect: "follow",
     };
-
-    await fetch("http://localhost:3001/api/login", requestOptions)
-      .then((response) => {
-        response.json();
-      })
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/login",
+        requestOptions
+      );
+      if (response.ok) {
+        const respuesta = await response.json();
+        localStorage.setItem("token", respuesta.token);
+        /*  alert(respuesta.message); */
+        navigate("/home");
+      } else {
+        const respuesta = await response.json();
+        alert(respuesta.error);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
+
   return (
     <div>
-      <form action="submit" onSubmit={onSubmit}>
+      <form action="submit" onSubmit={login}>
         <label htmlFor="">Usuario</label>
         <input
           type="text"
@@ -52,6 +66,9 @@ function Formulario() {
         />
         <button type="submit">Ingresar</button>
       </form>
+      <div>
+        <p>El usuario ingresado es: {user} y será redirigido al home</p>
+      </div>
     </div>
   );
 }

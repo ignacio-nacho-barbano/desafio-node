@@ -114,7 +114,7 @@ exports.editarInmueble = async (req, res) => {
 exports.eliminarInmueble = async (req, res) => {
     const id = +req.params.id;
     try {
-        const resultado = await knex("inmuebles").where({ id }).delete();
+        const resultado = await knex("inmuebles").where({ id }).del();
         const inmuebles = await knex.select("*").from("inmuebles");
         res.status(200).json({ message: "Propiedad borrada exitosamente", inmuebles });
     } catch (error) {

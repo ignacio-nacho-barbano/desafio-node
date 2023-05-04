@@ -1,12 +1,8 @@
 import React from "react";
-import Formulario from "./components/formulario";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  return (
-    <div>
-      <Formulario />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default App;
